@@ -251,7 +251,24 @@ public:
 		Ogre::Entity* _entBanderaF = mSceneMgr->createEntity("BanderaFinal", "banderaFinal.mesh");
 		_entBanderaF->setMaterialName("lambert1");
 		_nodeBFinal->attachObject(_entBanderaF);
+		
+		// Creamos la textura de la torreta
+		Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(
+			"CilindroText", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
+		Ogre::TextureUnitState* torretaTexture =
+			mat ->getTechnique(0) ->getPass(0)->createTextureUnitState("coin.jpg");
+
+		//Moneda
+		Ogre::SceneNode* _nodeMoneda = mSceneMgr->createSceneNode("Moneda");
+		mSceneMgr->getRootSceneNode()->addChild(_nodeMoneda);
+		
+		Ogre::Entity* _Moneda = mSceneMgr->createEntity("Moneda", "sphere.mesh");
+		_Moneda->setMaterial(mat);
+		_nodeMoneda->attachObject(_Moneda);
+		_nodeMoneda->setScale(0.02,0.02,0.02);
+		_nodeMoneda->translate(-5.77,3.517,9.262);
+		
 		// Fondo estrellado
 		mSceneMgr->setSkyBox(true, "matSkyBox", 300);
 
