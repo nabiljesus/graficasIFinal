@@ -30,7 +30,7 @@ public:
 		LuzPuntual02->setDiffuseColour(1.0,1.0,1.0);
 		LuzPuntual02->setDirection(Ogre::Vector3( -1, -1, -1 ));
 
-		//Rueda
+		//Rueda trasera derecha
 		Ogre::SceneNode* _nodeRueda01 = mSceneMgr->createSceneNode("Rueda01");
 		mSceneMgr->getRootSceneNode()->addChild(_nodeRueda01);
 			
@@ -38,6 +38,33 @@ public:
 		_nodeRueda01->translate(-5.77,3.517,-9.462);
 		_entRueda01->setMaterialName("shRueda02");
 		_nodeRueda01->attachObject(_entRueda01);
+
+		//Rueda trasera izquierda
+		Ogre::SceneNode* _nodeRueda02 = mSceneMgr->createSceneNode("Rueda02");
+		mSceneMgr->getRootSceneNode()->addChild(_nodeRueda02);
+			
+		Ogre::Entity* _entRueda02 = mSceneMgr->createEntity("entRueda02", "ruedaDetallada.mesh");
+		_nodeRueda02->translate(7.77,3.517,-9.462);
+		_entRueda02->setMaterialName("shRueda02");
+		_nodeRueda02->attachObject(_entRueda02);
+
+		//Rueda delantera izquierda
+		Ogre::SceneNode* _nodeRueda03 = mSceneMgr->createSceneNode("Rueda03");
+		mSceneMgr->getRootSceneNode()->addChild(_nodeRueda03);
+			
+		Ogre::Entity* _entRueda03 = mSceneMgr->createEntity("entRueda03", "ruedaDetallada.mesh");
+		_nodeRueda03->translate(7.77,3.517,9.262);
+		_entRueda03->setMaterialName("shRueda02");
+		_nodeRueda03->attachObject(_entRueda03);
+
+		//Rueda delantera derecha
+		Ogre::SceneNode* _nodeRueda04 = mSceneMgr->createSceneNode("Rueda04");
+		mSceneMgr->getRootSceneNode()->addChild(_nodeRueda04);
+			
+		Ogre::Entity* _entRueda04 = mSceneMgr->createEntity("entRueda04", "ruedaDetallada.mesh");
+		_nodeRueda04->translate(-5.77,3.517,9.262);
+		_entRueda04->setMaterialName("shRueda02");
+		_nodeRueda04->attachObject(_entRueda04);
 
 		//Chasis
 		Ogre::SceneNode* _nodeChasis01 = mSceneMgr->createSceneNode("Chasis01");
@@ -96,7 +123,8 @@ public:
 		_entBanderaF->setMaterialName("lambert1");
 		_nodeBFinal->attachObject(_entBanderaF);
 
-
+		// Fondo estrellado
+		mSceneMgr->setSkyBox(true, "matSkyBox", 300);
 
 
 	}
