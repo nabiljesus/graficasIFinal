@@ -63,20 +63,26 @@ public:
 		if(_key->isKeyDown(OIS::KC_W)){
 			tcam += Ogre::Vector3(0,0,-10);
 			tmov += Ogre::Vector3(0,0,10);
+			printf("\n");
+			printf("%f", _nodoF01->getPosition().z);
 			rotRueda += 10.0;
 		}
 		// Chequeamos los limites para movimiento lateral de la nave
+		if (_nodoF01->getPosition().z < 385.0 && _nodoF01->getPosition().x < 122.4){
 			if(_key->isKeyDown(OIS::KC_A)){
 				rot = 15.0;
 				tcam += Ogre::Vector3(-10,0,0);
 				tmov += Ogre::Vector3(10,0,0);
+			}
 		}
 		// Chequeamos los limites para movimiento lateral de la nave
+		if (_nodoF01->getPosition().z < 385.0 && _nodoF01->getPosition().x > -122.4){
 			if(_key->isKeyDown(OIS::KC_D)){
 				rot = -15.0;
 				tcam += Ogre::Vector3(10,0,0);
 				tmov += Ogre::Vector3(-10,0,0);
 			}
+		}
 		// Movimiento de la camara junto con la nave
 		_cam->moveRelative(tcam*movSpeed*evt.timeSinceLastFrame);
 		// Si la nave llega al final, reinicia a la posicion inicial
