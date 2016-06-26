@@ -9,6 +9,8 @@ private:
 	Ogre::SceneNode* _nodoR02;
 	Ogre::SceneNode* _nodoR03;
 	Ogre::SceneNode* _nodoR04;
+	// Nodo para la moneda
+	Ogre::SceneNode* _nodoM01;
 	
 	OIS::InputManager* _man;
 	Ogre::Camera* _cam;
@@ -17,7 +19,7 @@ private:
 
 public:
 	FrameListenerClase(Ogre::SceneNode* nodo01, Ogre::SceneNode* nodoR01, Ogre::SceneNode* nodoR02,
-						Ogre::SceneNode* nodoR03, Ogre::SceneNode* nodoR04, Ogre::Camera* cam,  RenderWindow* win){
+						Ogre::SceneNode* nodoR03, Ogre::SceneNode* nodoR04, Ogre::SceneNode* nodoM01, Ogre::Camera* cam,  RenderWindow* win){
 		size_t windowHnd = 0;
 		std::stringstream windowHndStr;
 		win->getCustomAttribute("WINDOW",&windowHnd);
@@ -37,6 +39,7 @@ public:
 		_nodoR02 = nodoR02;
 		_nodoR03 = nodoR03;
 		_nodoR04 = nodoR04;
+		_nodoM01 = nodoM01;
 	
 	}
 
@@ -56,6 +59,7 @@ public:
 		Ogre::Vector3 tcam(0,0,0);
 		float rot = 0.0;
 		float rotRueda = 0.0;
+		float rotMoneda = 0.0;
 
 		if(_key->isKeyDown(OIS::KC_ESCAPE))
 			return false;
@@ -104,6 +108,10 @@ public:
 		_nodoR03->rotate(Ogre::Quaternion(Ogre::Degree(rotRueda*movSpeed* evt.timeSinceLastFrame), Ogre::Vector3(1,0,0)) , Ogre::Node::TransformSpace::TS_WORLD);
 		_nodoR04->rotate(Ogre::Quaternion(Ogre::Degree(rotRueda*movSpeed* evt.timeSinceLastFrame), Ogre::Vector3(1,0,0)) , Ogre::Node::TransformSpace::TS_WORLD);
 
+		rotMoneda += 10;
+		_nodoM01->rotate(Ogre::Quaternion(Ogre::Degree(rotMoneda*movSpeed* evt.timeSinceLastFrame), Ogre::Vector3(0,1,0)) , Ogre::Node::TransformSpace::TS_WORLD);
+
+
 		return true;
 	}
 
@@ -119,6 +127,7 @@ public:
 	Ogre::SceneNode* _nodeRueda02;
 	Ogre::SceneNode* _nodeRueda03;
 	Ogre::SceneNode* _nodeRueda04;
+	Ogre::SceneNode* _nodeMoneda;
 	Ogre::FrameListener* FrameListener01;
 
 	Example1(){
@@ -132,7 +141,7 @@ public:
 	}
 
 	void createFrameListener(){
-		FrameListener01 = new FrameListenerClase(_nodeChasis01,_nodeRueda01,_nodeRueda02,_nodeRueda03,_nodeRueda04, mCamera,mWindow);
+		FrameListener01 = new FrameListenerClase(_nodeChasis01,_nodeRueda01,_nodeRueda02,_nodeRueda03,_nodeRueda04, _nodeMoneda, mCamera,mWindow);
 		mRoot->addFrameListener(FrameListener01);
 	}
 
@@ -265,14 +274,13 @@ public:
 		Ogre::TextureUnitState* torretaTexture =
 			mat ->getTechnique(0) ->getPass(0)->createTextureUnitState("coin.jpg");
 
-		//Moneda
-		Ogre::SceneNode* _nodeMoneda = mSceneMgr->createSceneNode("Moneda");
+		//Monedas
+		_nodeMoneda = mSceneMgr->createSceneNode("Moneda");
 		mSceneMgr->getRootSceneNode()->addChild(_nodeMoneda);
-		
 		Ogre::Entity* _Moneda = mSceneMgr->createEntity("Moneda", "sphere.mesh");
 		_Moneda->setMaterial(mat);
 		_nodeMoneda->attachObject(_Moneda);
-		_nodeMoneda->setScale(0.02,0.02,0.02);
+		_nodeMoneda->setScale(0.02,0.02,0.005);
 		_nodeMoneda->translate(-5.77,3.517,9.262);
 		
 		// Fondo estrellado
