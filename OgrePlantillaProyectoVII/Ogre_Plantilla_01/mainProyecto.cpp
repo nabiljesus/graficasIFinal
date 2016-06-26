@@ -65,28 +65,33 @@ public:
 			return false;
 		// La nave se mueve hacia el frente
 		if(_key->isKeyDown(OIS::KC_W)){
-			tcam += Ogre::Vector3(0,0,-10);
-			tmov += Ogre::Vector3(0,0,10);
+			Ogre::Quaternion dir = _nodoF01->getOrientation();
+			if (dir.y > 0 && dir.y < 0.5){
+				tmov += Ogre::Vector3(5+dir.y,0,5+dir.y);
+				tcam += Ogre::Vector3(-(5+dir.y),0,-(5+dir.y));
+			}
+			else{
+				tcam += Ogre::Vector3(0,0,-10);
+				tmov += Ogre::Vector3(0,0,10);
+			}
 			printf("\n");
-			printf("%f", _nodoF01->getPosition().z);
+			// get orientation as a quaternion
+			
+			printf("%f", dir.y);
 			rotRueda += 10.0;
 		}
 		// Chequeamos los limites para movimiento lateral de la nave
-		if (_nodoF01->getPosition().z < 385.0 && _nodoF01->getPosition().x < 122.4){
 			if(_key->isKeyDown(OIS::KC_A)){
 				rot = 15.0;
 				tcam += Ogre::Vector3(-10,0,0);
 				tmov += Ogre::Vector3(10,0,0);
 			}
-		}
 		// Chequeamos los limites para movimiento lateral de la nave
-		if (_nodoF01->getPosition().z < 385.0 && _nodoF01->getPosition().x > -122.4){
 			if(_key->isKeyDown(OIS::KC_D)){
 				rot = -15.0;
 				tcam += Ogre::Vector3(10,0,0);
 				tmov += Ogre::Vector3(-10,0,0);
 			}
-		}
 		// Movimiento de la camara junto con la nave
 		_cam->moveRelative(tcam*movSpeed*evt.timeSinceLastFrame);
 		// Si la nave llega al final, reinicia a la posicion inicial
@@ -139,7 +144,7 @@ public:
 			delete FrameListener01;
 		}
 	}
-
+	
 	void createFrameListener(){
 		FrameListener01 = new FrameListenerClase(_nodeChasis01,_nodeRueda01,_nodeRueda02,_nodeRueda03,_nodeRueda04, _nodeMoneda, mCamera,mWindow);
 		mRoot->addFrameListener(FrameListener01);
@@ -282,6 +287,82 @@ public:
 		_nodeMoneda->attachObject(_Moneda);
 		_nodeMoneda->setScale(0.02,0.02,0.005);
 		_nodeMoneda->translate(-5.77,3.517,9.262);
+
+		// Creamos la textura de la cosa
+		Ogre::MaterialPtr cosat = Ogre::MaterialManager::getSingleton().create(
+			"CilindroText", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+		Ogre::TextureUnitState* cosaTexture =
+			cosat ->getTechnique(0) ->getPass(0)->createTextureUnitState("athene.jpg");
+		//cosa
+		Ogre::SceneNode* _nodecosa = mSceneMgr->createSceneNode("Cosa");
+		mSceneMgr->getRootSceneNode()->addChild(_nodecosa);
+		Ogre::Entity* _cosa = mSceneMgr->createEntity("Cosa", "athene.mesh");
+		_cosa->setMaterial(cosat);
+		_nodecosa->attachObject(_cosa);
+		_nodecosa->setScale(0.8,0.8,0.8);
+		_nodecosa->translate(40.77,63.517,639.262);
+		_nodecosa->rotate(Ogre::Quaternion(Ogre::Degree(180), Ogre::Vector3(0,1,0)) , Ogre::Node::TransformSpace::TS_WORLD);
+
+		//cosa2
+		Ogre::SceneNode* _nodecosa2 = mSceneMgr->createSceneNode("Cosa2");
+		mSceneMgr->getRootSceneNode()->addChild(_nodecosa2);
+		Ogre::Entity* _cosa2 = mSceneMgr->createEntity("Cosa2", "athene.mesh");
+		_cosa2->setMaterial(cosat);
+		_nodecosa2->attachObject(_cosa2);
+		_nodecosa2->setScale(0.8,0.8,0.8);
+		_nodecosa2->translate(-129.77,63.517,639.262);
+		_nodecosa2->rotate(Ogre::Quaternion(Ogre::Degree(180), Ogre::Vector3(0,1,0)) , Ogre::Node::TransformSpace::TS_WORLD);
+
+		//cosa3
+		Ogre::SceneNode* _nodecosa3 = mSceneMgr->createSceneNode("Cosa3");
+		mSceneMgr->getRootSceneNode()->addChild(_nodecosa3);
+		Ogre::Entity* _cosa3 = mSceneMgr->createEntity("Cosa3", "athene.mesh");
+		_cosa3->setMaterial(cosat);
+		_nodecosa3->attachObject(_cosa3);
+		_nodecosa3->setScale(0.8,0.8,0.8);
+		_nodecosa3->translate(129.77,63.517,639.262);
+		_nodecosa3->rotate(Ogre::Quaternion(Ogre::Degree(180), Ogre::Vector3(0,1,0)) , Ogre::Node::TransformSpace::TS_WORLD);
+
+		//cosa4
+		Ogre::SceneNode* _nodecosa4 = mSceneMgr->createSceneNode("Cosa4");
+		mSceneMgr->getRootSceneNode()->addChild(_nodecosa4);
+		Ogre::Entity* _cosa4 = mSceneMgr->createEntity("Cosa4", "athene.mesh");
+		_cosa4->setMaterial(cosat);
+		_nodecosa4->attachObject(_cosa4);
+		_nodecosa4->setScale(0.8,0.8,0.8);
+		_nodecosa4->translate(-40.77,63.517,639.262);
+		_nodecosa4->rotate(Ogre::Quaternion(Ogre::Degree(180), Ogre::Vector3(0,1,0)) , Ogre::Node::TransformSpace::TS_WORLD);
+
+		//cosa5
+		Ogre::SceneNode* _nodecosa5 = mSceneMgr->createSceneNode("Cosa5");
+		mSceneMgr->getRootSceneNode()->addChild(_nodecosa5);
+		Ogre::Entity* _cosa5 = mSceneMgr->createEntity("Cosa5", "athene.mesh");
+		_cosa5->setMaterial(cosat);
+		_nodecosa5->attachObject(_cosa5);
+		_nodecosa5->setScale(0.8,0.8,0.8);
+		_nodecosa5->translate(0.0,63.517,539.262);
+		_nodecosa5->rotate(Ogre::Quaternion(Ogre::Degree(180), Ogre::Vector3(0,1,0)) , Ogre::Node::TransformSpace::TS_WORLD);
+
+		//cosa6
+		Ogre::SceneNode* _nodecosa6 = mSceneMgr->createSceneNode("Cosa6");
+		mSceneMgr->getRootSceneNode()->addChild(_nodecosa6);
+		Ogre::Entity* _cosa6 = mSceneMgr->createEntity("Cosa6", "athene.mesh");
+		_cosa6->setMaterial(cosat);
+		_nodecosa6->attachObject(_cosa6);
+		_nodecosa6->setScale(0.8,0.8,0.8);
+		_nodecosa6->translate(80.0,63.517,770.262);
+		_nodecosa6->rotate(Ogre::Quaternion(Ogre::Degree(180), Ogre::Vector3(0,1,0)) , Ogre::Node::TransformSpace::TS_WORLD);
+
+		//cosa7
+		Ogre::SceneNode* _nodecosa7 = mSceneMgr->createSceneNode("Cosa7");
+		mSceneMgr->getRootSceneNode()->addChild(_nodecosa7);
+		Ogre::Entity* _cosa7 = mSceneMgr->createEntity("Cosa7", "athene.mesh");
+		_cosa7->setMaterial(cosat);
+		_nodecosa7->attachObject(_cosa7);
+		_nodecosa7->setScale(0.8,0.8,0.8);
+		_nodecosa7->translate(-80.0,63.517,770.262);
+		_nodecosa7->rotate(Ogre::Quaternion(Ogre::Degree(180), Ogre::Vector3(0,1,0)) , Ogre::Node::TransformSpace::TS_WORLD);
 		
 		// Fondo estrellado
 		mSceneMgr->setSkyBox(true, "matSkyBox", 300);
